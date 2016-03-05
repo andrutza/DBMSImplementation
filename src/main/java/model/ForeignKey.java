@@ -7,40 +7,39 @@ import java.util.List;
  * Created by User on 28-02-16.
  */
 public class ForeignKey {
-    private Table referenceTable;
-    private Table referencedTable;
-    private Attribute referenceAttribute;
-    private Attribute referencedAttribute;
+    private List<String> names;
+    private List<Attribute> references;
+    private String refTable;
 
-    public Table getReferenceTable() {
-        return referenceTable;
+
+    public ForeignKey() {
+        names = new ArrayList<String>();
+        references = new ArrayList<Attribute>();
+
     }
 
-    public void setReferenceTable(Table referenceTable) {
-        this.referenceTable = referenceTable;
+    public void addName(String name){
+        names.add(name);
     }
 
-    public Table getReferencedTable() {
-        return referencedTable;
+    public void addAttribute(Attribute reference){
+        references.add(reference);
     }
 
-    public void setReferencedTable(Table referencedTable) {
-        this.referencedTable = referencedTable;
+    public List<String> getNames() {
+        return names;
     }
 
-    public Attribute getReferenceAttribute() {
-        return referenceAttribute;
+    public List<Attribute> getReferences() {
+        return references;
     }
 
-    public void setReferenceAttribute(Attribute referenceAttribute) {
-        this.referenceAttribute = referenceAttribute;
+    public String getRefTable() {
+        return refTable;
     }
 
-    public Attribute getReferencedAttribute() {
-        return referencedAttribute;
+    public void setRefTable(String refTable) {
+        this.refTable = refTable;
     }
 
-    public void setReferencedAttribute(Attribute referencedAttribute) {
-        this.referencedAttribute = referencedAttribute;
-    }
 }
