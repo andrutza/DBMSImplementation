@@ -2,29 +2,21 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-/**
- * Created by User on 28-02-16.
- */
 public class Table {
     private String name;
     private String fileName;
     private List<Attribute> attributes;
-
-    private List<Attribute> primaryKeys;
-    private List<Attribute> uniqueKeys;
-
     private List<ForeignKey> foreignKeys;
     private List<Index> indexes;
 
     public Table(String name, String fileName) {
         this.setName(name);
         this.setFileName(fileName);
-        attributes = new ArrayList<Attribute>();
-        indexes = new ArrayList<Index>();
-        primaryKeys = new ArrayList<Attribute>();
-        uniqueKeys = new ArrayList<Attribute>();
-        foreignKeys = new ArrayList<ForeignKey>();
+        attributes = new ArrayList<>();
+        indexes = new ArrayList<>();
+        foreignKeys = new ArrayList<>();
     }
 
     public String getName() {
@@ -55,14 +47,6 @@ public class Table {
         return indexes;
     }
 
-    public List<Attribute> getPrimaryKeys() {
-        return primaryKeys;
-    }
-
-    public List<Attribute> getUniqueKeys() {
-        return uniqueKeys;
-    }
-
     public void addAttribute(Attribute attr) {
         attributes.add(attr);
     }
@@ -71,7 +55,7 @@ public class Table {
         foreignKeys.add(fk);
     }
 
-    public Attribute getAtribute(String name) {
+    public Attribute getAttribute(String name) {
         for (Attribute attr : attributes) {
             if (attr.getName().equals(name)) {
                 return attr;
@@ -80,16 +64,33 @@ public class Table {
         return null;
     }
 
-    public void addPrimaryKey(Attribute name) {
-        primaryKeys.add(name);
+    public void makeAttributePrimaryKey(String name) {
+        Attribute attribute = getAttribute(name);
+        if(attribute != null) {
+            attribute.setPrimaryKey(true);
+        }
     }
 
-    public void addUniqueKey(Attribute attr) {
-        uniqueKeys.add(attr);
+    public void makeAttributeUniqueKey(String name) {
+        Attribute attribute = getAttribute(name);
+        if(attribute != null) {
+            attribute.setUniqueKey(true);
+        }
     }
 
     public void addIndex(Index index) {
         indexes.add(index);
     }
 
+    public List<Attribute> getPrimaryKeys() {
+        return attributes.stream()
+                .filter(Attribute::isPrimaryKey)
+                .collect(Collectors.toList());
+    }
+
+    public List<Attribute> getUniqueKeys() {
+        return attributes.stream()
+                .filter(Attribute::isUniqueKey)
+                .collect(Collectors.toList());
+    }
 }

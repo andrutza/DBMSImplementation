@@ -3,18 +3,13 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by User on 28-02-16.
- */
 public class Database {
     private String name;
     private List<Table> tables;
-    private List<ForeignKey> foreignKeys;
 
     public Database(String name) {
         this.setName(name);
-        tables = new ArrayList<Table>();
-        foreignKeys = new ArrayList<ForeignKey>();
+        tables = new ArrayList<>();
     }
 
     public void addTable(Table table){
@@ -49,9 +44,4 @@ public class Database {
     public List<Table> getTables(){
         return this.tables;
     }
-
-    public List<ForeignKey> getForeignKeys() {
-        return foreignKeys;
-    }
-
 }

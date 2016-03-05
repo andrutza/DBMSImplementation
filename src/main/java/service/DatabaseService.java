@@ -2,25 +2,18 @@ package service;
 
 import model.Attribute;
 import model.Database;
-import model.ForeignKey;
 import model.Table;
-import xml.Reader;
-import xml.Writer;
+import repository.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by User on 29-02-16.
- */
 public class DatabaseService {
 
     private static DatabaseService instance;
-    private List<Database> databases;
+    private Repository repository;
 
     private DatabaseService() {
-        Reader reader = new Reader();
-        databases = reader.getDatabases();
+        repository = new Repository();
     }
 
     public static DatabaseService getInstance() {
@@ -31,55 +24,22 @@ public class DatabaseService {
     }
 
     public List<Database> getDatabases() {
-        return databases;
-    }
-
-    public void addDatabase(String databaseName) {
-        databases.add(new Database(databaseName));
-        new Writer(databases);
-    }
-
-    public void deleteDatabase(String databaseName) {
-        boolean found = false;
-        Database databaseToRemove = null;
-        for (Database database : databases) {
-            if (database.getName().equals(databaseName)) {
-                databaseToRemove = database;
-                found = true;
-            }
-        }
-        if(found) {
-            databases.remove(databaseToRemove);
-        }
-        new Writer(databases);
+        return repository.getDatabases();
     }
 
     public List<Table> getTables(String databaseName) {
-        for (Database database : databases) {
-            if(database.getName().equals(databaseName)) {
-                return database.getTables();
-            }
-        }
-        return new ArrayList<Table>();
+        return repository.getTables(databaseName);
     }
 
     public List<Attribute> getAttributes(String databaseName, String tableName) {
-        List<Table> tables = getTables(databaseName);
-        for (Table table : tables) {
-            if(table.getName().equals(tableName)) {
-                return table.getAttributes();
-            }
-        }
-        return new ArrayList<Attribute>();
+        return repository.getAttributes(databaseName, tableName);
     }
 
-    public List<ForeignKey> getForeignKeys(String databaseName, String tableName) {
-        List<Table> tables = getTables(databaseName);
-        for (Table table : tables) {
-            if(table.getName().equals(tableName)) {
-                return table.getForeignKeys();
-            }
-        }
-        return new ArrayList<ForeignKey>();
+    public void addDatabase(String name) {
+        repository.addDatabase(name);
+    }
+
+    public void deleteDatabase(String name) {
+        repository.deleteDatabase(name);
     }
 }

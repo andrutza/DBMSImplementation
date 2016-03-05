@@ -2,68 +2,68 @@ package repository;
 
 import model.Attribute;
 import model.Database;
-import model.ForeignKey;
-import model.Index;
+import model.Table;
+import xml.XMLReader;
+import xml.XMLWriter;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by User on 28-02-16.
- */
 public class Repository {
 
-//    private List<Database> databases;
-//
-//    public Repository() {
-//
-//    }
-//
-//    public List<Database> getDatabases(){
-//        return databases;
-//    }
-//
-//    public int getPrimaryKeyIndex() {
-//        int i = 0;
-//        for (Attribute a : attributes) {
-//            if (primaryKeys.contains(a)) {
-//                return i;
-//            }
-//            i++;
-//        }
-//        return 0;
-//    }
-//
-//    public boolean isPrimaryAttr(String attr) {
-//        return primaryKeys.contains(getAtribute(attr));
-//    }
-//
-//    public boolean isForeignAttr(String attr) {
-//        for (ForeignKey f : foreignKeys) {
-//            for (Attribute a : f.getReferences()) {
-//                if (attr.equals(a.getName())) {
-//                    return true;
-//                }
-//            }
-//        }
-//        return false;
-//    }
-//
-//    public boolean isUniqueAttr(String attr) {
-//        for (Attribute a : uniqueKeys) {
-//            if (attr.equals(a.getName())) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-//
-//    public boolean isIndexAttr(String attr) {
-//        for (Index i : indexes) {
-//            if (attr.equals(i.getName())) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
+    private List<Database> databases;
+    private XMLWriter xmlWriter;
 
+    public Repository() {
+        xmlWriter = new XMLWriter();
+        initializeDatabases();
+    }
+
+    private void initializeDatabases() {
+        XMLReader XMLReader = new XMLReader();
+        databases = XMLReader.getDatabases();
+    }
+
+    public List<Database> getDatabases() {
+        return databases;
+    }
+
+    public void addDatabase(String databaseName) {
+        databases.add(new Database(databaseName));
+        xmlWriter.writeDatabases(databases);
+    }
+
+    public void deleteDatabase(String databaseName) {
+        boolean found = false;
+        Database databaseToRemove = null;
+        for (Database database : databases) {
+            if (database.getName().equals(databaseName)) {
+                databaseToRemove = database;
+                found = true;
+            }
+        }
+        if(found) {
+            databases.remove(databaseToRemove);
+        }
+        xmlWriter.writeDatabases(databases);
+    }
+
+    public List<Table> getTables(String databaseName) {
+        for (Database database : databases) {
+            if(database.getName().equals(databaseName)) {
+                return database.getTables();
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    public List<Attribute> getAttributes(String databaseName, String tableName) {
+        List<Table> tables = getTables(databaseName);
+        for (Table table : tables) {
+            if(table.getName().equals(tableName)) {
+                return table.getAttributes();
+            }
+        }
+        return new ArrayList<>();
+    }
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Databases>
+  <DataBase dataBaseName="animalworld">
+    <Table tableName="category" fileName="category.kv">
+      <Structure>
+        <Attribute attributeName="category_id" type="int" />
+        <Attribute attributeName="name" type="string" />
+      </Structure>
+      <primaryKey>
+        <pkAttribute>category_id</pkAttribute>
+      </primaryKey>
+      <uniqueKeys />
+      <IndexFiles>
+        <IndexFile indexName="category_name.ind">
+          <IndexAttributes>
+            <IAttribute>name</IAttribute>
+          </IndexAttributes>
+        </IndexFile>
+      </IndexFiles>
+    </Table>
+    <Table tableName="animal" fileName="animal.kv">
+      <Structure>
+        <Attribute attributeName="animal_id" type="int" />
+        <Attribute attributeName="name" type="string" />
+        <Attribute attributeName="weight" type="double" />
+        <Attribute attributeName="category_id" type="int" />
+      </Structure>
+      <primaryKey>
+        <pkAttribute>animal_id</pkAttribute>
+      </primaryKey>
+      <foreignKeys>
+        <foreignKey>
+          <fkAttribute>category_id</fkAttribute>
+          <references>
+            <refTable>category</refTable>
+            <refAttribute>category_id</refAttribute>
+          </references>
+        </foreignKey>
+      </foreignKeys>
+      <uniqueKeys>
+        <UniqueAttribute>weight</UniqueAttribute>
+      </uniqueKeys>
+    </Table>
+  </DataBase>
+</Databases>

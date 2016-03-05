@@ -3,9 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by User on 28-02-16.
- */
 public class ForeignKey {
     private List<String> names;
     private List<Attribute> references;
@@ -13,9 +10,8 @@ public class ForeignKey {
 
 
     public ForeignKey() {
-        names = new ArrayList<String>();
-        references = new ArrayList<Attribute>();
-
+        names = new ArrayList<>();
+        references = new ArrayList<>();
     }
 
     public void addName(String name){

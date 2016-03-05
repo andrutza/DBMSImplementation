@@ -1,8 +1,5 @@
 package model;
 
-/**
- * Created by User on 28-02-16.
- */
 public class Attribute {
     private String name;
     private String type;
@@ -10,6 +7,11 @@ public class Attribute {
     private boolean notNull;
     private boolean isPrimaryKey;
     private boolean isUniqueKey;
+
+    public Attribute(String name, String type) {
+        this.name = name;
+        this.type = type;
+    }
 
     public boolean isUniqueKey() {
         return isUniqueKey;
@@ -25,11 +27,6 @@ public class Attribute {
 
     public void setPrimaryKey(boolean primaryKey) {
         isPrimaryKey = primaryKey;
-    }
-
-    public Attribute(String name, String type) {
-        this.name = name;
-        this.type = type;
     }
 
     public String getName() {
