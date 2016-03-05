@@ -42,4 +42,23 @@
       </uniqueKeys>
     </Table>
   </DataBase>
+  <DataBase dataBaseName="musical_instruments">
+    <Table tableName="category" fileName="category.cv">
+      <Structure>
+        <Attribute attributeName="category_id" type="int" />
+        <Attribute attributeName="name" type="string" />
+      </Structure>
+      <primaryKey />
+      <uniqueKeys />
+    </Table>
+    <Table tableName="instrument" fileName="instrument.cv">
+      <Structure>
+        <Attribute attributeName="id" type="int" />
+        <Attribute attributeName="name" type="string" />
+        <Attribute attributeName="category_id" type="int" />
+      </Structure>
+      <primaryKey />
+      <uniqueKeys />
+    </Table>
+  </DataBase>
 </Databases>

@@ -24,6 +24,12 @@
             </form>
           </td>
           <td>
+            <form action="addTable.jsp" method="post">
+              <input type="submit" name="addTableButton" value="Add Table" />
+              <input type="hidden" name="dbName" value="${db.name}" />
+            </form>
+          </td>
+          <td>
             <form action="${pageContext.request.contextPath}/DatabaseDeleteServlet" method="post">
               <input type="submit" name="deleteButton" value="Delete Database" />
               <input type="hidden" name="databaseName" value="${db.name}" />

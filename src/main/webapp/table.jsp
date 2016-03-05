@@ -15,6 +15,13 @@
         <tr>
           <td><input type="text" name="name" value="${table.getName()}" size="15" readonly/></td>
           <td>
+            <form action="${pageContext.request.contextPath}/TableDeleteServlet" method="post">
+              <input type="submit" name="deleteTableButton" value="Delete Table" />
+              <input type="hidden" name="tableName" value="${table.name}" />
+              <input type="hidden" name="dbName" value="<%= request.getParameter("dbName")%>" />
+            </form>
+          </td>
+          <td>
             <form action="attribute.jsp" method="post">
               <input type="submit" name="selectButton" value="Show Attributes" />
               <input type="hidden" name="tableName" value="${table.getName()}" />
@@ -22,8 +29,22 @@
             </form>
           </td>
           <td>
+            <form action="addAttribute.jsp" method="post">
+              <input type="submit" name="addAttributeButton" value="Add Attribute" />
+              <input type="hidden" name="tableName" value="${table.getName()}" />
+              <input type="hidden" name="dbName" value="<%= request.getParameter("dbName")%>" />
+            </form>
+          </td>
+          <td>
             <form action="foreignKeys.jsp" method="post">
               <input type="submit" name="selectButton" value="Show Foreign Keys" />
+              <input type="hidden" name="tableName" value="${table.getName()}" />
+              <input type="hidden" name="dbName" value="<%= request.getParameter("dbName")%>" />
+            </form>
+          </td>
+          <td>
+            <form action="addForeignKey.jsp" method="post">
+              <input type="submit" name="addForeignKeyButton" value="Add Foreign Key" />
               <input type="hidden" name="tableName" value="${table.getName()}" />
               <input type="hidden" name="dbName" value="<%= request.getParameter("dbName")%>" />
             </form>

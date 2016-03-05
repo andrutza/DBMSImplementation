@@ -2,6 +2,7 @@ package service;
 
 import model.Attribute;
 import model.Database;
+import model.ForeignKey;
 import model.Table;
 import repository.Repository;
 
@@ -35,11 +36,27 @@ public class DatabaseService {
         return repository.getAttributes(databaseName, tableName);
     }
 
+    public List<ForeignKey> getForeignKeys(String databaseName, String tableName) {
+        return repository.getForeignKeys(databaseName, tableName);
+    }
+
     public void addDatabase(String name) {
         repository.addDatabase(name);
     }
 
+    public void addTable(String databaseName, String tableName) {
+        repository.addTable(databaseName, tableName);
+    }
+
+    public void addAttribute(String databaseName, String tableName, String attributeName, String attributeType) {
+        repository.addAttribute(databaseName, tableName, attributeName, attributeType);
+    }
+
     public void deleteDatabase(String name) {
         repository.deleteDatabase(name);
+    }
+
+    public void deleteTable(String databaseName, String tableName) {
+        repository.deleteTable(databaseName, tableName);
     }
 }

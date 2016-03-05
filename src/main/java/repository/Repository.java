@@ -2,6 +2,7 @@ package repository;
 
 import model.Attribute;
 import model.Database;
+import model.ForeignKey;
 import model.Table;
 import xml.XMLReader;
 import xml.XMLWriter;
@@ -33,6 +34,16 @@ public class Repository {
         xmlWriter.writeDatabases(databases);
     }
 
+    public void addTable(String databaseName, String tableName) {
+        getTables(databaseName).add(new Table(tableName, tableName + ".cv"));
+        xmlWriter.writeDatabases(databases);
+    }
+
+    public void addAttribute(String databaseName, String tableName, String attributeName, String attributeType) {
+        getAttributes(databaseName, tableName).add(new Attribute(attributeName, attributeType));
+        xmlWriter.writeDatabases(databases);
+    }
+
     public void deleteDatabase(String databaseName) {
         boolean found = false;
         Database databaseToRemove = null;
@@ -42,15 +53,30 @@ public class Repository {
                 found = true;
             }
         }
-        if(found) {
+        if (found) {
             databases.remove(databaseToRemove);
+        }
+        xmlWriter.writeDatabases(databases);
+    }
+
+    public void deleteTable(String databaseName, String tableName) {
+        boolean found = false;
+        Table tableToRemove = null;
+        for (Table table : getTables(databaseName)) {
+            if (table.getName().equals(tableName)) {
+                tableToRemove = table;
+                found = true;
+            }
+        }
+        if (found) {
+            getTables(databaseName).remove(tableToRemove);
         }
         xmlWriter.writeDatabases(databases);
     }
 
     public List<Table> getTables(String databaseName) {
         for (Database database : databases) {
-            if(database.getName().equals(databaseName)) {
+            if (database.getName().equals(databaseName)) {
                 return database.getTables();
             }
         }
@@ -60,8 +86,18 @@ public class Repository {
     public List<Attribute> getAttributes(String databaseName, String tableName) {
         List<Table> tables = getTables(databaseName);
         for (Table table : tables) {
-            if(table.getName().equals(tableName)) {
+            if (table.getName().equals(tableName)) {
                 return table.getAttributes();
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    public List<ForeignKey> getForeignKeys(String databaseName, String tableName) {
+        List<Table> tables = getTables(databaseName);
+        for (Table table : tables) {
+            if (table.getName().equals(tableName)) {
+                return table.getForeignKeys();
             }
         }
         return new ArrayList<>();
