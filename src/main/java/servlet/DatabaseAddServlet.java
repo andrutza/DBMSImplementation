@@ -9,12 +9,8 @@ import java.io.IOException;
 public class DatabaseAddServlet extends javax.servlet.http.HttpServlet {
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         String databaseName = request.getParameter("databaseName");
-        if(request.getParameter("cancelButton")!=null) {
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
-            return;
-        }
         DatabaseService.getInstance().addDatabase(databaseName);
-        response.sendRedirect(request.getContextPath() + "/index.jsp");
+        response.sendRedirect(request.getContextPath() + "/database.jsp");
     }
 
 

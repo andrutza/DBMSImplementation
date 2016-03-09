@@ -13,6 +13,6 @@ public class DatabaseDeleteServlet extends HttpServlet {
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         String databaseName = request.getParameter("databaseName");
         DatabaseService.getInstance().deleteDatabase(databaseName);
-        response.sendRedirect(request.getContextPath() + "/index.jsp");
+        response.sendRedirect(request.getContextPath() + "/database.jsp");
     }
 }

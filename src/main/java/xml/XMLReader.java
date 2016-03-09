@@ -6,7 +6,6 @@ import org.jdom2.Document;
 import org.jdom2.Element;
 import utils.FileUtils;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,7 +64,7 @@ public class XMLReader {
                 Element indexAttributeTag = indexFileTag.getChild("IndexAttributes");
                 List<Element> indexAttributes = indexAttributeTag.getChildren("IAttribute");
                 for(Element indexAttribute :indexAttributes){
-                    i.addIndexAttribute(table.getAttribute(indexAttribute.getText()));
+                    i.addIndexAttribute(indexAttribute.getText());
                 }
                 table.addIndex(i);
             }
@@ -97,7 +96,7 @@ public class XMLReader {
                 foreignKey.setRefTable(fkRefTable);
                 List<Element> fkReferenceAttributes = fkReference.getChildren("refAttribute");
                 for(Element fkReferenceAttribute : fkReferenceAttributes){
-                    foreignKey.addAttribute(database.getTable(fkRefTable).getAttribute(fkReferenceAttribute.getText()));
+                    foreignKey.addAttribute(fkReferenceAttribute.getText());
                 }
                 table.addForeignKey(foreignKey);
             }
@@ -116,7 +115,12 @@ public class XMLReader {
         Element structureTag = tableTag.getChild("Structure");
         List<Element> attributes = structureTag.getChildren("Attribute");
         for(Element attribute:attributes){
-            table.addAttribute(new Attribute(attribute.getAttributeValue("attributeName"),attribute.getAttributeValue("type")));
+            Attribute attr = new Attribute(attribute.getAttributeValue("attributeName"),attribute.getAttributeValue("type"));
+            Integer length = attribute.getAttributeValue("length") != null ? Integer.parseInt(attribute.getAttributeValue("length")) : null;
+            boolean isNull = Boolean.parseBoolean(attribute.getAttributeValue("isnull"));
+            attr.setLength(length);
+            attr.setCanBeNull(isNull);
+            table.addAttribute(attr);
         }
     }
 }

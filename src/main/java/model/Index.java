@@ -5,18 +5,18 @@ import java.util.List;
 
 public class Index {
     private String name;
-    private List<Attribute> indexAttributes;
+    private List<String> indexAttributes;
 
     public Index(String name) {
         indexAttributes = new ArrayList<>();
         this.setName(name);
     }
 
-    public List<Attribute> getIndexAttributes() {
+    public List<String> getIndexAttributes() {
         return indexAttributes;
     }
 
-    public void addIndexAttribute(Attribute a){
+    public void addIndexAttribute(String a){
         indexAttributes.add(a);
     }
     public String getName() {

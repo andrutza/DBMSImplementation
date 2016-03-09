@@ -2,46 +2,27 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
-  <head>
+<head>
     <title>DBMS</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-  </head>
-  <body>
-    <table>
-      <tr>
-        <th>Databases:</th>
-      </tr>
-      <c:forEach var="db" items='<%=DatabaseService.getInstance().getDatabases()%>'>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/style.css"/>">
+</head>
+<body>
+<jsp:include page="header.jsp"/>
+<h2>Indexes:</h2>
+<table align="center">
+    <tr>
+        <th>Name</th>
+        <th>Index Attribute</th>
+    </tr>
+    <c:forEach var="indx" items='<%= DatabaseService.getInstance().getIndexes(request.getParameter("dbName"),request.getParameter("tableName"))%>'>
         <tr>
-          <td id="selectedDatabase">
-            <label>${db.name}</label>
-            <%--<input type="text" name="name" value="" size="15" readonly/>--%>
-          </td>
-          <td>
-            <form action="table.jsp" method="post">
-              <input type="submit" name="selectButton" value="Show Tables" />
-              <input type="hidden" name="dbName" value="${db.name}" />
-            </form>
-          </td>
-          <td>
-            <form action="addTable.jsp" method="post">
-              <input type="submit" name="addTableButton" value="Add Table" />
-              <input type="hidden" name="dbName" value="${db.name}" />
-            </form>
-          </td>
-          <td>
-            <form action="${pageContext.request.contextPath}/DatabaseDeleteServlet" method="post">
-              <input type="submit" name="deleteButton" value="Delete Database" />
-              <input type="hidden" name="databaseName" value="${db.name}" />
-            </form>
-          </td>
-        </tr>
-      </c:forEach>
-    </table>
+            <td><input type="text" name="name" value="${indx.getName()}" size="15" readonly/></td>
+            <td><input type="text" name="atrbs" value="${indx.getIndexAttributes().get(0)}" size="15" readonly/></td>
+        </tr>							
+    </c:forEach>
 
-    <form action="addDatabase.jsp" method="get">
-      <input  type="submit" name="addDatabase" value="Add Database" />
-    </form>
+</table>
 
-  </body>
+</body>
 </html>

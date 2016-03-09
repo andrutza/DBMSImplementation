@@ -3,8 +3,8 @@
   <DataBase dataBaseName="animalworld">
     <Table tableName="category" fileName="category.kv">
       <Structure>
-        <Attribute attributeName="category_id" type="int" />
-        <Attribute attributeName="name" type="string" />
+        <Attribute attributeName="category_id" type="int" length="11" isNull="false" />
+        <Attribute attributeName="name" type="string" length="30" isNull="false" />
       </Structure>
       <primaryKey>
         <pkAttribute>category_id</pkAttribute>
@@ -20,10 +20,10 @@
     </Table>
     <Table tableName="animal" fileName="animal.kv">
       <Structure>
-        <Attribute attributeName="animal_id" type="int" />
-        <Attribute attributeName="name" type="string" />
-        <Attribute attributeName="weight" type="double" />
-        <Attribute attributeName="category_id" type="int" />
+        <Attribute attributeName="animal_id" type="int" length="11" isNull="false" />
+        <Attribute attributeName="name" type="string" length="30" isNull="false" />
+        <Attribute attributeName="weight" type="double" isNull="false" />
+        <Attribute attributeName="category_id" type="int" length="11" isNull="false" />
       </Structure>
       <primaryKey>
         <pkAttribute>animal_id</pkAttribute>
@@ -37,28 +37,14 @@
           </references>
         </foreignKey>
       </foreignKeys>
-      <uniqueKeys>
-        <UniqueAttribute>weight</UniqueAttribute>
-      </uniqueKeys>
-    </Table>
-  </DataBase>
-  <DataBase dataBaseName="musical_instruments">
-    <Table tableName="category" fileName="category.cv">
-      <Structure>
-        <Attribute attributeName="category_id" type="int" />
-        <Attribute attributeName="name" type="string" />
-      </Structure>
-      <primaryKey />
       <uniqueKeys />
-    </Table>
-    <Table tableName="instrument" fileName="instrument.cv">
-      <Structure>
-        <Attribute attributeName="id" type="int" />
-        <Attribute attributeName="name" type="string" />
-        <Attribute attributeName="category_id" type="int" />
-      </Structure>
-      <primaryKey />
-      <uniqueKeys />
+      <IndexFiles>
+        <IndexFile indexName="animal_animal_id.ind">
+          <IndexAttributes>
+            <IAttribute>animal_id</IAttribute>
+          </IndexAttributes>
+        </IndexFile>
+      </IndexFiles>
     </Table>
   </DataBase>
 </Databases>

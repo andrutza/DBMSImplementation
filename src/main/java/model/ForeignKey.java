@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ForeignKey {
     private List<String> names;
-    private List<Attribute> references;
+    private List<String> references;
     private String refTable;
 
 
@@ -18,7 +18,7 @@ public class ForeignKey {
         names.add(name);
     }
 
-    public void addAttribute(Attribute reference){
+    public void addAttribute(String reference){
         references.add(reference);
     }
 
@@ -26,7 +26,7 @@ public class ForeignKey {
         return names;
     }
 
-    public List<Attribute> getReferences() {
+    public List<String> getReferences() {
         return references;
     }
 

@@ -5,8 +5,10 @@
   <head>
     <title>DBMS</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/style.css"/>">
   </head>
   <body>
+  <jsp:include page="header.jsp"/>
     <table>
       <tr>
         <th>Tables:</th>
@@ -45,6 +47,20 @@
           <td>
             <form action="addForeignKey.jsp" method="post">
               <input type="submit" name="addForeignKeyButton" value="Add Foreign Key" />
+              <input type="hidden" name="tableName" value="${table.getName()}" />
+              <input type="hidden" name="dbName" value="<%= request.getParameter("dbName")%>" />
+            </form>
+          </td>
+          <td>
+            <form action="index.jsp" method="post">
+              <input type="submit" name="selectButton" value="Show Indexes" />
+              <input type="hidden" name="tableName" value="${table.getName()}" />
+              <input type="hidden" name="dbName" value="<%= request.getParameter("dbName")%>" />
+            </form>
+          </td>
+          <td>
+            <form action="addIndex.jsp" method="post">
+              <input type="submit" name="addIndexButton" value="Add Index" />
               <input type="hidden" name="tableName" value="${table.getName()}" />
               <input type="hidden" name="dbName" value="<%= request.getParameter("dbName")%>" />
             </form>

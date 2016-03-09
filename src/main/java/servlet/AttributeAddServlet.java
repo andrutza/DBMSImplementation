@@ -12,12 +12,12 @@ public class AttributeAddServlet extends javax.servlet.http.HttpServlet {
         String tableName = request.getParameter("tableName");
         String attributeName = request.getParameter("attributeName");
         String attributeType = request.getParameter("attributeType");
-        if(request.getParameter("cancelButton")!=null) {
-            response.sendRedirect(request.getContextPath() + "/index.jsp");
-            return;
-        }
-        DatabaseService.getInstance().addAttribute(databaseName, tableName, attributeName, attributeType);
-        response.sendRedirect(request.getContextPath() + "/index.jsp");
+        String checkPrimary = request.getParameter("checkPrimary");
+        String checkNull = request.getParameter("checkNull");
+        String checkUnique = request.getParameter("checkUnique");
+        String length = request.getParameter("length");
+        DatabaseService.getInstance().addAttribute(databaseName, tableName, attributeName, attributeType, length, checkPrimary!=null, checkNull!=null, checkUnique!=null);
+        response.sendRedirect(request.getContextPath() + "/database.jsp");
     }
 
 

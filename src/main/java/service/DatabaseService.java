@@ -1,9 +1,6 @@
 package service;
 
-import model.Attribute;
-import model.Database;
-import model.ForeignKey;
-import model.Table;
+import model.*;
 import repository.Repository;
 
 import java.util.List;
@@ -40,6 +37,10 @@ public class DatabaseService {
         return repository.getForeignKeys(databaseName, tableName);
     }
 
+    public List<Index> getIndexes(String databaseName, String tableName) {
+        return repository.getIndexes(databaseName, tableName);
+    }
+
     public void addDatabase(String name) {
         repository.addDatabase(name);
     }
@@ -48,8 +49,16 @@ public class DatabaseService {
         repository.addTable(databaseName, tableName);
     }
 
-    public void addAttribute(String databaseName, String tableName, String attributeName, String attributeType) {
-        repository.addAttribute(databaseName, tableName, attributeName, attributeType);
+    public void addAttribute(String databaseName, String tableName, String attributeName, String attributeType, String length, boolean isPrimary, boolean isNotNull, boolean isUnique) {
+        repository.addAttribute(databaseName, tableName, attributeName, attributeType, length, isPrimary, isNotNull, isUnique);
+    }
+
+    public void addForeignKey(String databaseName, String tableName, String attribute, String refTable, String refAttribute) {
+        repository.addForeignKey(databaseName, tableName, attribute, refTable, refAttribute);
+    }
+
+    public void addIndex(String databaseName, String tableName, String attribute) {
+        repository.addIndex(databaseName, tableName, attribute);
     }
 
     public void deleteDatabase(String name) {

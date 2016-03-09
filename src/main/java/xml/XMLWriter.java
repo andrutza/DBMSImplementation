@@ -71,9 +71,9 @@ public class XMLWriter {
                 indexFiles.addContent(indexFile);
                 Element indexAttributes = new Element("IndexAttributes");
                 indexFile.addContent(indexAttributes);
-                for(Attribute a : i.getIndexAttributes()){
+                for(String a : i.getIndexAttributes()){
                     Element indexAttribute = new Element("IAttribute");
-                    indexAttribute.setText(a.getName());
+                    indexAttribute.setText(a);
                     indexAttributes.addContent(indexAttribute);
                 }
             }
@@ -108,9 +108,9 @@ public class XMLWriter {
                 Element refTable = new Element("refTable");
                 refTable.setText(key.getRefTable());
                 referencesTag.addContent(refTable);
-                for(Attribute attr : key.getReferences()){
+                for(String attr : key.getReferences()){
                     Element refAttr = new Element("refAttribute");
-                    refAttr.setText(attr.getName());
+                    refAttr.setText(attr);
                     referencesTag.addContent(refAttr);
                 }
             }
@@ -134,6 +134,10 @@ public class XMLWriter {
             Element newAttribute = new Element("Attribute");
             newAttribute.setAttribute("attributeName",attribute.getName());
             newAttribute.setAttribute("type",attribute.getType());
+            if(attribute.getLength() != null) {
+                newAttribute.setAttribute("length",""+attribute.getLength());
+            }
+            newAttribute.setAttribute("isNull",""+attribute.isCanBeNull());
             structure.addContent(newAttribute);
         }
     }

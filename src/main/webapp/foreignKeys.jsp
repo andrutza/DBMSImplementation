@@ -4,11 +4,12 @@
 <html>
 <head>
     <title>DBMS</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/style.css"/>">
 </head>
 <body>
+<jsp:include page="header.jsp"/>
 <h2>Foreign keys:</h2>
-<table>
+<table align="center">
     <tr>
         <th>Name</th>
         <th>Referenced Table</th>
@@ -18,7 +19,7 @@
         <tr>
             <td><input type="text" name="name" value="${fk.getNames().get(0)}" size="15" readonly/></td>
             <td><input type="text" name="refTable" value="${fk.getRefTable()}" size="15" readonly/></td>
-            <td><input type="text" name="references" value="${fk.getReferences().get(0).getName()}" size="15" readonly/></td>
+            <td><input type="text" name="references" value="${fk.getReferences().get(0)}" size="15" readonly/></td>
         </tr>
     </c:forEach>
 

@@ -1,9 +1,6 @@
 package repository;
 
-import model.Attribute;
-import model.Database;
-import model.ForeignKey;
-import model.Table;
+import model.*;
 import xml.XMLReader;
 import xml.XMLWriter;
 
@@ -35,12 +32,33 @@ public class Repository {
     }
 
     public void addTable(String databaseName, String tableName) {
-        getTables(databaseName).add(new Table(tableName, tableName + ".cv"));
+        getTables(databaseName).add(new Table(tableName, tableName + ".kv"));
         xmlWriter.writeDatabases(databases);
     }
 
-    public void addAttribute(String databaseName, String tableName, String attributeName, String attributeType) {
-        getAttributes(databaseName, tableName).add(new Attribute(attributeName, attributeType));
+    public void addIndex(String databaseName, String tableName, String attribute) {
+        Index index = new Index(tableName + "_" + attribute + ".ind");
+        index.addIndexAttribute(attribute);
+        getIndexes(databaseName, tableName).add(index);
+        xmlWriter.writeDatabases(databases);
+    }
+
+    public void addAttribute(String databaseName, String tableName, String attributeName, String attributeType, String length, boolean isPrimary, boolean isNotNull, boolean isUnique) {
+        Attribute attribute = new Attribute(attributeName, attributeType);
+        attribute.setLength(Integer.parseInt(length));
+        attribute.setCanBeNull(isNotNull);
+        attribute.setPrimaryKey(isPrimary);
+        attribute.setUniqueKey(isUnique);
+        getAttributes(databaseName, tableName).add(attribute);
+        xmlWriter.writeDatabases(databases);
+    }
+
+    public void addForeignKey(String databaseName, String tableName, String attribute, String refTable, String refAttribute) {
+        ForeignKey foreignKey = new ForeignKey();
+        foreignKey.addName(attribute);
+        foreignKey.setRefTable(refTable);
+        foreignKey.addAttribute(refAttribute);
+        getForeignKeys(databaseName, tableName).add(foreignKey);
         xmlWriter.writeDatabases(databases);
     }
 
@@ -98,6 +116,16 @@ public class Repository {
         for (Table table : tables) {
             if (table.getName().equals(tableName)) {
                 return table.getForeignKeys();
+            }
+        }
+        return new ArrayList<>();
+    }
+
+    public List<Index> getIndexes(String databaseName, String tableName) {
+        List<Table> tables = getTables(databaseName);
+        for (Table table : tables) {
+            if (table.getName().equals(tableName)) {
+                return table.getIndexes();
             }
         }
         return new ArrayList<>();
