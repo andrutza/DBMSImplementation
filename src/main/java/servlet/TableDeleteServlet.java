@@ -14,6 +14,6 @@ public class TableDeleteServlet extends HttpServlet {
         String databaseName = request.getParameter("dbName");
         String tableName = request.getParameter("tableName");
         DatabaseService.getInstance().deleteTable(databaseName, tableName);
-        response.sendRedirect(request.getContextPath() + "/table.jsp");
+        response.sendRedirect(request.getContextPath() + "/table.jsp?dbName=" + databaseName);
     }
 }

@@ -14,7 +14,7 @@ public class ForeignKeyAddServlet extends javax.servlet.http.HttpServlet {
         String refTable = request.getParameter("refTable");
         String refAttribute = request.getParameter("refAttribute");
         DatabaseService.getInstance().addForeignKey(databaseName, tableName, attribute, refTable, refAttribute);
-        response.sendRedirect(request.getContextPath() + "/database.jsp");
+        response.sendRedirect(request.getContextPath() + "/table.jsp?dbName=" + databaseName);
     }
 
 

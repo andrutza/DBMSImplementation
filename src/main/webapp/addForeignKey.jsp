@@ -9,7 +9,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-    <h2>Add foreign key form:</h2>
+    <h2>Add foreign key:</h2>
     <form action="/ForeignKeyAddServlet" method="post">
         Attribute:
         <select name="attribute">

@@ -12,7 +12,7 @@ public class IndexAddServlet extends javax.servlet.http.HttpServlet {
         String tableName = request.getParameter("tableName");
         String attribute = request.getParameter("attribute");
         DatabaseService.getInstance().addIndex(databaseName, tableName, attribute);
-        response.sendRedirect(request.getContextPath() + "/database.jsp");
+        response.sendRedirect(request.getContextPath() + "/table.jsp?dbName=" + databaseName);
     }
 
 

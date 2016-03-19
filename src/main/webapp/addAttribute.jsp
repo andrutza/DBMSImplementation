@@ -21,7 +21,7 @@
         Can be Null: <INPUT TYPE="CHECKBOX" NAME="checkNull" VALUE="checkNull" />
         Is Unique Key: <INPUT TYPE="CHECKBOX" NAME="checkUnique" VALUE="checkUnique" />
         <input type="hidden" name="dbName" value="<%= request.getParameter("dbName")%>" />
-        <input type="hidden" name="tableName" value="<%= request.getParameter("tableName")%>" />
+        <input type="hidden" name="tableName" value="<%= request.getParameter("tableName")%>" /><br><br>
         <input type="submit" name="saveButton" value="Save" />
     </form>
 

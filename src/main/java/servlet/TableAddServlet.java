@@ -11,7 +11,7 @@ public class TableAddServlet extends javax.servlet.http.HttpServlet {
         String databaseName = request.getParameter("dbName");
         String tableName = request.getParameter("tableName");
         DatabaseService.getInstance().addTable(databaseName, tableName);
-        response.sendRedirect(request.getContextPath() + "/database.jsp");
+        response.sendRedirect(request.getContextPath() + "/table.jsp?dbName=" + databaseName);
     }
 
 

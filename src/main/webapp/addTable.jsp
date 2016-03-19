@@ -7,7 +7,7 @@
 </head>
 <body>
 <jsp:include page="header.jsp"/>
-    <h2>Add table form:</h2>
+    <h2>Add table:</h2>
     <form action="/TableAddServlet" method="post">
        Table Name: <input type="text" name="tableName" value="" required/>
         <input type="hidden" name="dbName" value="<%= request.getParameter("dbName")%>" />

@@ -45,7 +45,9 @@ public class Repository {
 
     public void addAttribute(String databaseName, String tableName, String attributeName, String attributeType, String length, boolean isPrimary, boolean isNotNull, boolean isUnique) {
         Attribute attribute = new Attribute(attributeName, attributeType);
-        attribute.setLength(Integer.parseInt(length));
+        if(!length.equals("")) {
+            attribute.setLength(Integer.parseInt(length));
+        }
         attribute.setCanBeNull(isNotNull);
         attribute.setPrimaryKey(isPrimary);
         attribute.setUniqueKey(isUnique);
@@ -90,6 +92,19 @@ public class Repository {
             getTables(databaseName).remove(tableToRemove);
         }
         xmlWriter.writeDatabases(databases);
+    }
+
+    public Table findTableByName(String databaseName, String tableName) {
+        for (Database database : databases) {
+            if (database.getName().equals(databaseName)) {
+                for (Table table : database.getTables()) {
+                    if(table.getName().equals(tableName)) {
+                        return table;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     public List<Table> getTables(String databaseName) {

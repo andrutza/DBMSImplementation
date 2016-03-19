@@ -1,9 +1,12 @@
 package service;
 
+import mapdb.MapDbService;
 import model.*;
 import repository.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DatabaseService {
 
@@ -47,6 +50,29 @@ public class DatabaseService {
 
     public void addTable(String databaseName, String tableName) {
         repository.addTable(databaseName, tableName);
+    }
+
+    public void addRecord(String databaseName, String tableName, List<String> values) {
+        Table table = repository.findTableByName(databaseName, tableName);
+        Record record = new Record(table.getAttributes(), values);
+        MapDbService.getInstance().insert(record, databaseName, tableName);
+        table.addRecord(record);
+    }
+
+    public List<Record> getRecords(String databaseName, String tableName) {
+        List<Record> records = new ArrayList<>();
+        Table table = repository.findTableByName(databaseName, tableName);
+        for (Map.Entry<String, String> entry : MapDbService.getInstance().getRecords(databaseName, tableName).entrySet()) {
+            records.add(new Record(entry.getKey(), entry.getValue(), table.getAttributes()));
+        }
+        return records;
+    }
+
+    public void deleteRecord(String databaseName, String tableName, List<String> values) {
+        Table table = repository.findTableByName(databaseName, tableName);
+        Record record = new Record(table.getAttributes(), values);
+        MapDbService.getInstance().delete(record, databaseName, tableName);
+        table.deleteRecord(record);
     }
 
     public void addAttribute(String databaseName, String tableName, String attributeName, String attributeType, String length, boolean isPrimary, boolean isNotNull, boolean isUnique) {

@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Table {
@@ -10,6 +11,7 @@ public class Table {
     private List<Attribute> attributes;
     private List<ForeignKey> foreignKeys;
     private List<Index> indexes;
+    private List<Record> records = new ArrayList<>();
 
     public Table(String name, String fileName) {
         this.setName(name);
@@ -82,6 +84,14 @@ public class Table {
         indexes.add(index);
     }
 
+    public void addRecord(Record record) {
+        records.add(record);
+    }
+
+    public void deleteRecord(Record record) {
+        records.add(record);
+    }
+
     public List<Attribute> getPrimaryKeys() {
         return attributes.stream()
                 .filter(Attribute::isPrimaryKey)
@@ -93,4 +103,6 @@ public class Table {
                 .filter(Attribute::isUniqueKey)
                 .collect(Collectors.toList());
     }
+
+
 }

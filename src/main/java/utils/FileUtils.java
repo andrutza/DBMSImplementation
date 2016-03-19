@@ -31,9 +31,9 @@ public class FileUtils {
         return dir.delete();
     }
 
-    public boolean createDirectory(String name) {
-        File dir = new File(Constants.DB_ROOT + name);
-        return dir.exists() || new File(Constants.DB_ROOT + name).mkdir();
+    public boolean createDirectory(String databaseName) {
+        File dir = new File(getDatabasesRoot() + "/" + databaseName);
+        return dir.exists() || dir.mkdir();
     }
 
     public InputStream getDatabasesInputStream() throws FileNotFoundException {
@@ -42,5 +42,9 @@ public class FileUtils {
 
     public OutputStream getDatabasesOutputStream() throws FileNotFoundException {
         return new FileOutputStream(properties.getProperty("databasesXML.location"));
+    }
+
+    public String getDatabasesRoot() {
+        return properties.getProperty("databasesRoot.location");
     }
 }
