@@ -7,10 +7,28 @@ public class Attribute {
     private boolean canBeNull;
     private boolean isPrimaryKey;
     private boolean isUniqueKey;
+    private boolean isForeignKey;
+    private String indexName;
 
     public Attribute(String name, String type) {
         this.name = name;
         this.type = type;
+    }
+
+    public String getIndexName() {
+        return indexName;
+    }
+
+    public void setIndexName(String indexName) {
+        this.indexName = indexName;
+    }
+
+    public boolean isForeignKey() {
+        return isForeignKey;
+    }
+
+    public void setForeignKey(boolean foreignKey) {
+        isForeignKey = foreignKey;
     }
 
     public boolean isUniqueKey() {

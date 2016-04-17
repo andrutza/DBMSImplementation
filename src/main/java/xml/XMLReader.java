@@ -60,12 +60,14 @@ public class XMLReader {
         if(indexFilesTag != null){
             List<Element> indexFiles = indexFilesTag.getChildren("IndexFile");
             for(Element indexFileTag : indexFiles){
-                Index i = new Index(indexFileTag.getAttributeValue("indexName"));
                 Element indexAttributeTag = indexFileTag.getChild("IndexAttributes");
                 List<Element> indexAttributes = indexAttributeTag.getChildren("IAttribute");
-                for(Element indexAttribute :indexAttributes){
-                    i.addIndexAttribute(indexAttribute.getText());
-                }
+                String attributeName = indexAttributes.get(0).getText();
+                Attribute attribute = table.getAttribute(attributeName);
+                String indexName = indexFileTag.getAttributeValue("indexName");
+                attribute.setIndexName(indexName);
+                Index i = new Index(indexName);
+                i.addIndexAttribute(attributeName);
                 table.addIndex(i);
             }
         }

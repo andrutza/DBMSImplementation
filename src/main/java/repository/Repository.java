@@ -1,11 +1,14 @@
 package repository;
 
+import mapdb.MapDbException;
+import mapdb.MapDbService;
 import model.*;
 import xml.XMLReader;
 import xml.XMLWriter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Repository {
 
@@ -20,6 +23,20 @@ public class Repository {
     private void initializeDatabases() {
         XMLReader XMLReader = new XMLReader();
         databases = XMLReader.getDatabases();
+        loadData();
+    }
+
+    private void loadData() {
+        for (Database database : databases) {
+            for (Table table : database.getTables()) {
+                List<Record> records = new ArrayList<>();
+                for (Map.Entry<String, String> entry : MapDbService.getInstance().getRecords(database.getName(), table.getName()).entrySet()) {
+                    Record record = new Record(entry.getKey(), entry.getValue(), table.getAttributes());
+                    records.add(record);
+                }
+                table.setRecords(records);
+            }
+        }
     }
 
     public List<Database> getDatabases() {

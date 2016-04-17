@@ -11,7 +11,7 @@ public class Table {
     private List<Attribute> attributes;
     private List<ForeignKey> foreignKeys;
     private List<Index> indexes;
-    private List<Record> records = new ArrayList<>();
+    private List<Record> records;
 
     public Table(String name, String fileName) {
         this.setName(name);
@@ -23,6 +23,16 @@ public class Table {
 
     public String getName() {
         return name;
+    }
+
+    public ForeignKey getForeignKey(String attribute) {
+        for (ForeignKey foreignKey : foreignKeys) {
+            if (attribute.equals(foreignKey.getNames().get(0))) {
+                getAttribute(attribute).setForeignKey(true);
+                return foreignKey;
+            }
+        }
+        return null;
     }
 
     public void setName(String name) {
@@ -89,7 +99,7 @@ public class Table {
     }
 
     public void deleteRecord(Record record) {
-        records.add(record);
+        records.remove(record);
     }
 
     public List<Attribute> getPrimaryKeys() {
@@ -105,4 +115,20 @@ public class Table {
     }
 
 
+    public List<Record> getRecords() {
+        return records;
+    }
+
+    public void setRecords(List<Record> records) {
+        this.records = records;
+    }
+
+    public Record getRecord(String primaryKey) {
+        for (Record record : records) {
+            if(record.getStoreKey().equals(primaryKey)) {
+                return record;
+            }
+        }
+        return null;
+    }
 }

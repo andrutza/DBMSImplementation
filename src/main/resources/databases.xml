@@ -9,7 +9,9 @@
       <primaryKey>
         <pkAttribute>category_id</pkAttribute>
       </primaryKey>
-      <uniqueKeys />
+      <uniqueKeys>
+        <UniqueAttribute>name</UniqueAttribute>
+      </uniqueKeys>
       <IndexFiles>
         <IndexFile indexName="category_name.ind">
           <IndexAttributes>
@@ -42,6 +44,11 @@
         <IndexFile indexName="animal_animal_id.ind">
           <IndexAttributes>
             <IAttribute>animal_id</IAttribute>
+          </IndexAttributes>
+        </IndexFile>
+        <IndexFile indexName="animal_category_id.ind">
+          <IndexAttributes>
+            <IAttribute>category_id</IAttribute>
           </IndexAttributes>
         </IndexFile>
       </IndexFiles>

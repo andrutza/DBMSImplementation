@@ -9,6 +9,10 @@
   </head>
   <body>
   <jsp:include page="header.jsp"/>
+  <% String errorMsg = (String)request.getAttribute("errorMsg"); %>
+  <c:if test="${errorMsg!=null}">
+    <h2 style="color:red">${errorMsg}</h2>
+  </c:if>
     <table>
       <tr>
         <th>Tables:</th>
@@ -61,6 +65,13 @@
           <td>
             <form action="addIndex.jsp" method="post">
               <input type="submit" name="addIndexButton" value="Add Index" />
+              <input type="hidden" name="tableName" value="${table.getName()}" />
+              <input type="hidden" name="dbName" value="<%= request.getParameter("dbName")%>" />
+            </form>
+          </td>
+          <td>
+            <form action="records.jsp" method="post">
+              <input type="submit" name="selectButton" value="Show Records" />
               <input type="hidden" name="tableName" value="${table.getName()}" />
               <input type="hidden" name="dbName" value="<%= request.getParameter("dbName")%>" />
             </form>

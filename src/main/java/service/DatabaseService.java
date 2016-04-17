@@ -1,5 +1,6 @@
 package service;
 
+import mapdb.MapDbException;
 import mapdb.MapDbService;
 import model.*;
 import repository.Repository;
@@ -7,6 +8,7 @@ import repository.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class DatabaseService {
 
@@ -52,26 +54,52 @@ public class DatabaseService {
         repository.addTable(databaseName, tableName);
     }
 
-    public void addRecord(String databaseName, String tableName, List<String> values) {
+    public void addRecord(String databaseName, String tableName, Map<String, String[]> values) throws MapDbException {
         Table table = repository.findTableByName(databaseName, tableName);
         Record record = new Record(table.getAttributes(), values);
+        Map<Attribute, String> uniqueKeys = record.getUniqueKeys();
+        MapDbService.getInstance().validateRecord(record, databaseName, tableName);
+        for (Map.Entry<Attribute, String> entry : uniqueKeys.entrySet()) {
+            MapDbService.getInstance().makeUniqueIndexFile(entry.getKey().getIndexName(), entry.getValue(), record.getStoreKey(), databaseName);
+        }
+        Map<Attribute, String> foreignKeys = record.getForeignKeys();
+        for (Map.Entry<Attribute, String> entry : foreignKeys.entrySet()) {
+            MapDbService.getInstance().makeNonuniqueIndexFile(entry.getKey().getIndexName(), entry.getValue(), record.getStoreKey(), databaseName);
+        }
         MapDbService.getInstance().insert(record, databaseName, tableName);
         table.addRecord(record);
     }
 
-    public List<Record> getRecords(String databaseName, String tableName) {
-        List<Record> records = new ArrayList<>();
-        Table table = repository.findTableByName(databaseName, tableName);
-        for (Map.Entry<String, String> entry : MapDbService.getInstance().getRecords(databaseName, tableName).entrySet()) {
-            records.add(new Record(entry.getKey(), entry.getValue(), table.getAttributes()));
-        }
-        return records;
+    public List<Record> projection(String databaseName, String tableName, List<Attribute> selectedAttributes) {
+        List<Record> records = getRecords(databaseName, tableName);
+        return records.stream()
+                .map(record -> record.getProjectedRecord(selectedAttributes))
+                .collect(Collectors.toList());
     }
 
-    public void deleteRecord(String databaseName, String tableName, List<String> values) {
+    public List<Record> getRecords(String databaseName, String tableName) {
         Table table = repository.findTableByName(databaseName, tableName);
-        Record record = new Record(table.getAttributes(), values);
-        MapDbService.getInstance().delete(record, databaseName, tableName);
+        return table.getRecords();
+    }
+
+    public List<String> getRecordsOfAttribute(String databaseName, String tableName, String attributeName) {
+        List<String> result = new ArrayList<>();
+        Table table = findTableByName(databaseName, tableName);
+        Attribute attribute = table.getAttribute(attributeName);
+        for (Record record : table.getRecords()) {
+            result.add(record.getValue(attribute));
+        }
+        return result;
+    }
+
+    public void deleteRecord(String databaseName, String tableName, String primaryKey) throws MapDbException {
+        Table table = repository.findTableByName(databaseName, tableName);
+        Record record = table.getRecord(primaryKey);
+        if(!MapDbService.getInstance().hasChildren(record, databaseName, table)) {
+            MapDbService.getInstance().delete(record, databaseName, tableName);
+        } else {
+            throw new MapDbException("You cannot delete this record! It is referenced by another table!");
+        }
         table.deleteRecord(record);
     }
 
@@ -93,5 +121,9 @@ public class DatabaseService {
 
     public void deleteTable(String databaseName, String tableName) {
         repository.deleteTable(databaseName, tableName);
+    }
+
+    public Table findTableByName(String databaseName, String tableName) {
+        return repository.findTableByName(databaseName, tableName);
     }
 }
