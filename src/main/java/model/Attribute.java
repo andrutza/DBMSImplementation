@@ -10,6 +10,10 @@ public class Attribute {
     private boolean isForeignKey;
     private String indexName;
 
+    public Attribute(String name) {
+        this.name = name;
+    }
+
     public Attribute(String name, String type) {
         this.name = name;
         this.type = type;

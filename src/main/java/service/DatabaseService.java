@@ -70,11 +70,21 @@ public class DatabaseService {
         table.addRecord(record);
     }
 
-    public List<Record> projection(String databaseName, String tableName, List<Attribute> selectedAttributes) {
+    public List<Record> projectionAndSelection(String databaseName, String tableName, List<Attribute> selectedAttributes, List<Filter> filters) {
         List<Record> records = getRecords(databaseName, tableName);
         return records.stream()
+                .filter(record -> applyFiltersOnRecord(record, filters))
                 .map(record -> record.getProjectedRecord(selectedAttributes))
                 .collect(Collectors.toList());
+    }
+
+    public boolean applyFiltersOnRecord(Record record, List<Filter> filters) {
+        for (Filter filter : filters) {
+            if (!filter.matches(record)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public List<Record> getRecords(String databaseName, String tableName) {

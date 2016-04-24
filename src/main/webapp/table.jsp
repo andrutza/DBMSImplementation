@@ -1,4 +1,6 @@
 <%@ page import="service.DatabaseService" %>
+<%@ page import="model.Attribute" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -13,7 +15,7 @@
   <c:if test="${errorMsg!=null}">
     <h2 style="color:red">${errorMsg}</h2>
   </c:if>
-    <table>
+    <table id="tables">
       <tr>
         <th>Tables:</th>
       </tr>
@@ -76,8 +78,16 @@
               <input type="hidden" name="dbName" value="<%= request.getParameter("dbName")%>" />
             </form>
           </td>
+          <td>
+            <form action="query.jsp" method="get">
+              <input  type="submit" name="query" value="Sql editor" id="queryButton"/>
+              <input type="hidden" name="tableName" value="${table.getName()}" />
+              <input type="hidden" name="dbName" value="<%= request.getParameter("dbName")%>" />
+            </form>
+          </td>
         </tr>
       </c:forEach>
-    </table>
+    </table><br><br>
+
   </body>
 </html>

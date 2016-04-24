@@ -11,6 +11,11 @@ body {
 	line-height: 1.5;
 	text-align: center;
 }
+fieldset {
+	width:550px;
+	margin-left: 50%;
+	transform: translateX(-50%);
+}
 table {
 	border:1px solid black;
 	/*margin-left: 350px;*/
@@ -28,10 +33,13 @@ label.error {
 	color:red;
 }
 input {
-	width: 150px;
+	width: 128px;
 }
 input.error {
 	background-color:#ffcccc;
+}
+.selectedAttribute {
+	width:25px;
 }
 #addButton {
 	height: 30px;
